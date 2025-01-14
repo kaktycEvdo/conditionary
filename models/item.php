@@ -1,6 +1,6 @@
 <?php
-class Item{
-    protected $id;
+include_once "model.php";
+class Item extends Model{
     protected $name;
     protected $description;
     protected $producer;
