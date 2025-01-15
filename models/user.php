@@ -31,12 +31,11 @@ class User extends Model{
         ServerModal::staticThrowModal('Авторизация прошла успешно', false, '../cond');
     }
 
-    // TODO: doesn't work, fix. guess it's harder with redirects.
     public function register(PDO $pdo, string $username, string $email, string $password){
         require_once 'checking_module.php';
         // check the data
 
-        $res = validateName($name);
+        $res = validateName($username);
         if($res[0] == 1){
             ServerModal::staticThrowModal($res[1], $res[0], 'reg');
             die;
@@ -46,9 +45,8 @@ class User extends Model{
             ServerModal::staticThrowModal($res[1], $res[0], 'reg');
             die;
         }
-        
-        $name = $_POST['name'];
-        $password = hash('sha256', $_POST['password']);
+
+        $password = hash('sha256', $password);
 
         $query = $pdo->prepare('INSERT INTO users(username, email, password) VALUES (:name, :email, :password)');
         $query->bindValue('name', $username);
@@ -64,7 +62,7 @@ class User extends Model{
         $this->changeName($username);
         $this->changePassword($password, false);
         Session::set('user', serialize($this));
-        Page::redirect('catalogue');
+        ServerModal::staticThrowModal('Пользователь создан успешно', false, 'catalogue');
     }
 
     public function getName(){
@@ -82,4 +80,6 @@ class User extends Model{
         }
         $this->password = $password;
     }
+
+    // TODO: add changeByObject and changeByDBTable. one for changing the DB table object from class variables and one for the opposite thing.
 }

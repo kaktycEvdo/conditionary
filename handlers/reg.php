@@ -17,6 +17,6 @@ if(sizeof($_POST) > 0){
             die;
         }
     $user = new User();
-    $user->register($pdo, $_POST['email'], $_POST['password'], $_POST['name']);
+    $user->register($pdo, $_POST['name'], $_POST['email'], $_POST['password']);
     die;
 }

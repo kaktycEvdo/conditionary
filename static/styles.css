@@ -1,0 +1,20 @@
+#index_container{
+    position: relative;
+}
+#index_container::before{
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url(img/kitchen.jpg);
+    filter: blur(2px) brightness(0.5);
+    image-rendering: optimizeSpeed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+}
+#index_container > main{
+    position: relative;
+}

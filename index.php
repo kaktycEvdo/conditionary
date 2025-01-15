@@ -83,6 +83,22 @@ class ServerModal{
     public static function staticThrowModal(string $message, bool $error, string $location = null){
         switch($error){
             case false:
+                /*
+                    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalChoice">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content rounded-3 shadow">
+                            <div class="modal-body p-4 text-center">
+                                <h5 class="mb-0">Enable this setting?</h5>
+                                <p class="mb-0">You can always change your mind in your account settings.</p>
+                            </div>
+                            <div class="modal-footer flex-nowrap p-0">
+                                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Yes, enable</strong></button>
+                                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">No thanks</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                */
                 echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
@@ -132,7 +148,7 @@ $current_page = null;
 
 if(array_search($url, $pages_names, true) !== false){
     switch ($url){
-        case '':
+        case '/':
             require_once 'handlers/index.php';
             break;
         default:
@@ -150,13 +166,14 @@ if($current_page == null){
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="vh-100">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
-<body class="h-75">
+<body class="vh-100 vw-100 d-grid" style="grid-template-rows: max-content auto">
     <?php $current_page->draw($url, $pages_names, $pages_titles, $dir); ?>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="static/js/bootstrap.min.js"></script>
