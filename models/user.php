@@ -27,7 +27,6 @@ class User extends Model{
             die;
         }
 
-        // TODO: add global dir thing
         ServerModal::staticThrowModal('Авторизация прошла успешно', false, '../cond');
     }
 
@@ -67,6 +66,10 @@ class User extends Model{
 
     public function getName(){
         return $this->username;
+    }
+    public function getEmail(bool $encrypt = false){
+        $enctryptedEmail = $this->email[0].$this->email[1].'*********@'.explode('@', $this->email)[1];
+        return $encrypt ? $enctryptedEmail : $this->email;
     }
     public function changeName(string $username){
         $this->username = $username;

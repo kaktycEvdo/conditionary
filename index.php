@@ -133,7 +133,8 @@ $pages_names = [
     '/catalogue',
     '/order',
     '/orders',
-    '/reg'
+    '/reg',
+    '/admin'
 ];
 $pages_titles = [
     'Главная',
@@ -142,6 +143,7 @@ $pages_titles = [
     'Заказ',
     'Заказы',
     'Регистрация',
+    'Админ-панель'
 ];
 
 $current_page = null;
@@ -163,6 +165,7 @@ else{
 if($current_page == null){
     $current_page = $url == '/' ? new Page('index') : new Page(explode('/', $url)[1]);
 }
+if($url != '/manage.php'){
 ?>
 
 <!DOCTYPE html>
@@ -179,3 +182,4 @@ if($current_page == null){
     <script src="static/js/bootstrap.min.js"></script>
 </body>
 </html>
+<?php } ?>
