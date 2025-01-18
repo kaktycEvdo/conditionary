@@ -17,7 +17,12 @@ $user = isset($_SESSION['user']) ? unserialize(Session::get('user')) : null;
                     if(array_search($pages_names[$i], $blacklist) || $blacklist[0] == $pages_names[$i]){
                         continue;
                     }
-                    if($user->getName() != 'user' && $pages_names[$i] == '/admin'){
+                    if($user){
+                        if($user->getName() != 'user' && $pages_names[$i] == '/admin'){
+                            continue;
+                        }
+                    }
+                    else if ($pages_names[$i] == '/admin'){
                         continue;
                     }
                     if($pages_names[$i] == $url){
