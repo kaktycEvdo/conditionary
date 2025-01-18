@@ -120,7 +120,8 @@ $pages_names = [
     '/order',
     '/orders',
     '/reg',
-    '/admin'
+    '/admin',
+    '/product'
 ];
 $pages_titles = [
     'Главная',
@@ -129,7 +130,8 @@ $pages_titles = [
     'Заказ',
     'Заказы',
     'Регистрация',
-    'Админ-панель'
+    'Админ-панель',
+    'Продукт'
 ];
 
 $current_page = null;

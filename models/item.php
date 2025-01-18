@@ -10,32 +10,35 @@ class Item extends Model{
     protected $quantity;
 
     public function getName(){
-
+        return $this->name;
     }
     public function setName(){
         
     }
     public function getDescription(){
-
+        return $this->description;
     }
     public function setDescription(){
         
     }
     public function getProducer(){
-
+        return $this->producer;
     }
     public function setProducer(){
         
     }
+    public function getCountry(){
+        return $this->countryByNumber($this->country);
+    }
     public function getPrice(){
-
+        return $this->price;
     }
     public function setPrice(){
         
     }
 
     public function getID(){
-
+        return $this->id;
     }
 
     public function countryByNumber($number){

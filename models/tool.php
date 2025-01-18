@@ -33,7 +33,7 @@ class Tool extends Item{
         return "<div class='card' style='width: 18rem;'>
                     <img src='static/img/palette.jpg' class='card-img-top' alt='...'>
                     <div class='card-body'>
-                        <h5 class='card-title'>$this->name</h5>
+                        <a class='card-title' href='product?id=$this->id'>$this->name</a>
                         <p class='card-text'>$this->producer <a class='badge text-bg-success'>$this->price ₽</a></p>
                     </div>
                     <ul class='list-group list-group-flush'>
