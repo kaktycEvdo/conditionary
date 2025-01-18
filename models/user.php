@@ -7,7 +7,6 @@ class User extends Model{
 
     public function authorize(PDO $pdo, string $email, string $pswrd){
         $query = $pdo->prepare('SELECT id, email, password, username FROM users WHERE email = :email and password = :password');
-        $data = null;
 
         $query->bindParam('email', $email);
         $query->bindParam('password', $pswrd);

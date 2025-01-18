@@ -14,8 +14,8 @@ if(sizeof($_POST) > 0){
         || (!isset($_POST['email']) || $_POST['email'] == '')){
             ServerModal::staticThrowModal('Ошибка: пустые поля при авторизации', true, 'auth');
             die;
-        }
+    }
     $user = new User();
-    $user->authorize($pdo, $_POST['email'], $_POST['password']);
+    $user->authorize($pdo, $_POST['email'], hash('sha256', $_POST['password']));
     die;
 }

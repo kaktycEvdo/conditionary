@@ -74,43 +74,17 @@ class ServerModal{
     public function throwModal(string $message, bool $error = false, string $location = null){
         $this->changeModal($message, $error);
         $this->thrown = true;
-        $modal = $this;
-        $_SESSION['response'] = serialize($modal);
+        Session::set('serverModal', serialize($this));
         if($location){
             header("Location: $location");
         }
     }
     public static function staticThrowModal(string $message, bool $error, string $location = null){
-        switch($error){
-            case false:
-                /*
-                    <div class="modal modal-sheet position-static d-block bg-body-secondary p-4 py-md-5" tabindex="-1" role="dialog" id="modalChoice">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content rounded-3 shadow">
-                            <div class="modal-body p-4 text-center">
-                                <h5 class="mb-0">Enable this setting?</h5>
-                                <p class="mb-0">You can always change your mind in your account settings.</p>
-                            </div>
-                            <div class="modal-footer flex-nowrap p-0">
-                                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end"><strong>Yes, enable</strong></button>
-                                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0" data-bs-dismiss="modal">No thanks</button>
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                */
-                echo '<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                вот это в ушах свистит конечно вообще неожиданно
-                            </div>
-                        </div>
-                    </div>';
-                break;
-            case true:
-                echo "<div class='modal merror'>$message</div>";
-                break;
-        }
+        $modal = new ServerModal();
+        $modal->changeType($error);
+        $modal->changeMessage($message);
+        $modal->thrown = true;
+        Session::set('serverModal', serialize($modal));
         if($location){
             Page::redirect($location);
         }
@@ -118,10 +92,22 @@ class ServerModal{
     public function printMessage(){
         switch($this->type){
             case false:
-                echo "<div class='modal msuccess'>$this->message</div>";
+                echo "<div class='modal fade success' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
+                        <div class='modal-dialog'>
+                            <div class='modal-content'>
+                                $this->message
+                            </div>
+                        </div>
+                    </div>";
                 break;
             case true:
-                echo "<div class='modal merror'>$this->message</div>";
+                echo "<div class='modal fade error' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
+                        <div class='modal-dialog'>
+                            <div class='modal-content'>
+                                $this->message
+                            </div>
+                        </div>
+                    </div>";
                 break;
         }
     }
@@ -165,6 +151,12 @@ else{
 if($current_page == null){
     $current_page = $url == '/' ? new Page('index') : new Page(explode('/', $url)[1]);
 }
+
+if(isset($_SESSION['serverModal'])){
+    $modal = unserialize(Session::get('serverModal'));
+    $modal->printMessage();
+}
+
 if($url != '/manage.php'){
 ?>
 
