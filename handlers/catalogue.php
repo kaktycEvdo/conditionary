@@ -29,7 +29,7 @@ class CataloguePage extends Page{
 
         // продукты -> ингредиенты|инструменты. если пользователям нужны конкретные характеристики, то для этого будут фильтры.
         // фильтры вложенные, в плане если нужны конкретно инструменты, то после этого покажутся их конкретные фильтры
-        $getProductsQ = $pdo->query("SELECT id, category, name, producer, country, price, quantity FROM product ORDER BY name DESC LIMIT $limit OFFSET $temp", PDO::FETCH_ASSOC);
+        $getProductsQ = $pdo->query("SELECT id, category, name, producer, country, price, quantity, description, image FROM product ORDER BY name DESC LIMIT $limit OFFSET $temp", PDO::FETCH_ASSOC);
         $products = $getProductsQ->fetchAll();
 
         $ingredients = [];
@@ -45,7 +45,7 @@ class CataloguePage extends Page{
                     $i = new Ingredient($product_data['id'], $product_data['category'], $product_data['name'],
                 $product_data['producer'], $product_data['country'], $product_data['price'],
                 explode(',', $ingredient_info['nutrition']), $ingredient_info['energy'],
-                $ingredient_info['components'], $ingredient_info['weight'], $product_data['quantity']);
+                $ingredient_info['components'], $ingredient_info['weight'], $product_data['quantity'], $product_data['description'], $product_data['image']);
                     array_push($ingredients, $i);
                     break;
                 }
@@ -56,7 +56,7 @@ class CataloguePage extends Page{
                     $tool_info = $getToolQ->fetch();
                     $t = new Tool($product_data['id'], $product_data['category'], $product_data['name'],
                 $product_data['producer'], $product_data['country'], $product_data['price'],
-                $tool_info['material'], $product_data['quantity']);
+                $tool_info['material'], $product_data['quantity'], $product_data['description'], $product_data['image']);
                     array_push($tools, $t);
                     break;
                 }

@@ -29,32 +29,61 @@ function dofetching(item, command){
     loading.classList.remove('hidden');
     fetch('manage.php?item='+item+'&command='+command).
     then(response => {
-        if(response.headers.get('content-type') !== 'application/json; charset=utf-8'){
-            popup('error', 'Error: not json returned');
+        if(response.headers.get('content-type') === 'application/json; charset=utf-8'){
             const loading = document.getElementById('loading');
-
             loading.classList.add('hidden');
+            let res = response.json();
+
+            return [1, res];
         }
-        let res = response.json();
-        return res;
+        else if(response.headers.get('content-type') === 'text/html; charset=utf-8'){
+            const loading = document.getElementById('loading');
+            loading.classList.add('hidden');
+            let res = response.text();
+
+            return [0, res];
+        }
+        
     }, error => {
         console.log(error);
         const loading = document.getElementById('loading');
 
         loading.classList.add('hidden');
     }).then(res => {
-        const loading = document.getElementById('loading');
-
-        loading.classList.add('hidden');
-
-        str = "";
-        res.forEach(element => {
-            str += "Элемент:" + element['name'];
-        });
-        const container = document.getElementById('content_container');
-        container.innerHTML = str;
+        if(res[0] == 0){
+            res[1].then(data => {
+                const container = document.getElementById('content_container');
+                container.innerHTML = data;
+            });
+        }
+        else if(res[0] == 1){
+            res[1].then(data => {
+                str = "";
+                data.forEach(element => {
+                    str += "Элемент:" + element['name'];
+                });
+                const container = document.getElementById('content_container');
+                container.innerHTML = str;
+            });
+        }
     })
 }
 function showCreateForm(){
     const container = document.getElementById('content_container');
+}
+function sendPostProduct(){
+    // id, name, description, category, producer, country, price, quantity, image
+    let formData = new FormData(document.getElementById('newProductForm'));
+
+    let hr = new XMLHttpRequest();
+    hr.open('POST', 'manage.php?command=newProduct&item=products', true);
+    hr.setRequestHeader('Content-type', 'multipart/form-data; boundary=000' + Math.random().toString());
+    hr.onreadystatechange = function() {
+        if(hr.readyState == 4 && hr.status == 200) {
+            let return_data = hr.responseText;
+            const container = document.getElementById('content_container');
+            container.innerHTML = container.innerHTML+return_data;
+        }
+    }
+    hr.send(formData);
 }

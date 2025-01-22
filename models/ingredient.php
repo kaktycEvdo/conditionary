@@ -14,7 +14,7 @@ class Ingredient extends Item{
     protected $weight;
 
     public function __construct(int $id, int $category, string $name, string $producer,
-    int $country, int $price, array $nutrition, int $energy, string $components, int $weight, int $quantity, string $description = null) {
+    int $country, int $price, array $nutrition, int $energy, string $components, int $weight, int $quantity, string $description = null, string $image = 'default.jpg') {
         $this->id = $id;
         $this->category = $category;
         $this->name = $name;
@@ -27,11 +27,12 @@ class Ingredient extends Item{
         $this->components = $components;
         $this->quantity = $quantity;
         $this->weight = $weight;
+        $this->image = $image;
     }
 
     public function draw(){
         return "<div class='card' style='width: 18rem;'>
-                    <img src='static/img/chocolate.jpg' class='card-img-top' alt='...'>
+                    <img src='static/img/$this->image' class='card-img-top' alt='...'>
                     <div class='card-body'>
                         <a class='card-title' href='product?id=$this->id'>$this->name</a>
                         <p class='card-text'>$this->producer <a class='badge text-bg-success'>$this->price ₽</a></p>

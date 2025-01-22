@@ -8,6 +8,7 @@ class Item extends Model{
     protected $country;
     protected $price;
     protected $quantity;
+    protected $image;
 
     public function getName(){
         return $this->name;
@@ -35,6 +36,12 @@ class Item extends Model{
     }
     public function setPrice(){
         
+    }
+    public function getImage(){
+        return $this->image;
+    }
+    public function setImage($image){
+        $this->image = $image;
     }
 
     public function getID(){
