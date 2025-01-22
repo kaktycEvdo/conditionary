@@ -75,15 +75,15 @@ function sendPostProduct(){
     // id, name, description, category, producer, country, price, quantity, image
     let formData = new FormData(document.getElementById('newProductForm'));
 
-    let hr = new XMLHttpRequest();
-    hr.open('POST', 'manage.php?command=newProduct&item=products', true);
-    hr.setRequestHeader('Content-type', 'multipart/form-data; boundary=000' + Math.random().toString());
-    hr.onreadystatechange = function() {
-        if(hr.readyState == 4 && hr.status == 200) {
-            let return_data = hr.responseText;
+    fetch("manage.php?command=newProduct&item=products", {
+        method: "POST",
+        body: formData
+    }).then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
             const container = document.getElementById('content_container');
-            container.innerHTML = container.innerHTML+return_data;
+            container.innerHTML = container.innerHTML+res;
         }
-    }
-    hr.send(formData);
+    });
 }

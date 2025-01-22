@@ -65,7 +65,6 @@ switch ($need) {
                             break;
                         }
                         default: {
-                            ServerModal::staticThrowModal('Ошибка в информации товара', true);
                             break;
                         }
                     }
@@ -81,9 +80,36 @@ switch ($need) {
                 break;
             }
             case 'newProduct': {
-                echo "<div>";
-                var_dump($_FILES);
-                echo "</div>";
+                $product_fields = ['name', 'description', 'category', 'producer', 'country', 'price', 'quantity'];
+                $ingredient_fields = ['energy', 'nutrition', 'components', 'weight'];
+                $tool_fields = ['material'];
+                $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity) VALUES (:name, :description, :category, :producer, :country, :price, :quantity); SELECT id FROM product ORDER BY id DESC");
+                $category = '';
+                foreach ($product_fields as $field) {
+                    if($key == 'category') $category = $value;
+                    $newProductQ->bindParam($field, $_POST[$field]);
+                }
+                $id = $newProductQ->fetch();
+
+                switch($category){
+                    case 1:{
+                        // TODO: class-based creation
+                        // $newIngredient = new Ingredient(0, 1, );
+                        // $newIngredient->initiate();
+                        $newIngredientQ = $pdo->prepare("INSERT INTO ingredient(general_info, energy, nutrition, components, weight) VALUES ($id, :energy, :nutrition, :components, :weight)");
+                        foreach($ingredient_fields as $field){
+                            $newIngredientQ->bindParam($field, $_POST[$field]);
+                        }
+                        $newIngredientQ->execute();
+                    }
+                    case 2:{
+                        $newToolQ = $pdo->prepare("INSERT INTO tool(general_info, material) VALUES($id, :material)");
+                        foreach($tool_fields as $field){
+                            $newToolQ->bindParam($field, $_POST[$field]);
+                        }
+                        $newToolQ->execute();
+                    }
+                }
                 break;
             }
         }
