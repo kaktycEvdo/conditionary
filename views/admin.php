@@ -74,5 +74,8 @@
         <div id="content_container">
 
         </div>
+        <div id="debug_container">
+
+        </div>
     </main>
 </div>

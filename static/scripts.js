@@ -68,9 +68,6 @@ function dofetching(item, command){
         }
     })
 }
-function showCreateForm(){
-    const container = document.getElementById('content_container');
-}
 function sendPostProduct(){
     // id, name, description, category, producer, country, price, quantity, image
     let formData = new FormData(document.getElementById('newProductForm'));
@@ -82,7 +79,7 @@ function sendPostProduct(){
         return res.text();
     }).then(res => {
         if(res != ''){
-            const container = document.getElementById('content_container');
+            const container = document.getElementById('debug_container');
             container.innerHTML = container.innerHTML+res;
         }
     });

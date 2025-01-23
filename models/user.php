@@ -26,7 +26,7 @@ class User extends Model{
             die;
         }
 
-        ServerModal::staticThrowModal('Авторизация прошла успешно', false, '../conditionary');
+        ServerModal::staticThrowModal('Авторизация прошла успешно', false, 'profile');
     }
 
     public function register(PDO $pdo, string $username, string $email, string $password){

@@ -51,7 +51,12 @@
     </div>
     <div class="row">
         <label for="country">Код страны-производителя</label>
-        <input required type="number" id="country" name="country">
+        <select name="country" id="country" class="form-select">
+            <option value="0" selected>Неизвестная страна (0)</option>
+            <option value="7">Россия (7)</option>
+            <option value="33">Франция (33)</option>
+            <option value="41">Швейцария (41)</option>
+        </select>
     </div>
     <div class="row">
         <label for="price">Цена</label>
@@ -63,10 +68,7 @@
     </div>
     <div class="row">
         <label for="image">Изображение</label>
-        <div class="input-group mb-3">
-            <label class="input-group-text" for="image">Загрузить</label>
-            <input required type="file" name="image" class="form-control" id="image">
-        </div>
+        <input required type="file" name="image" class="form-control" id="image">
     </div>
 </form>
 <div class="container">

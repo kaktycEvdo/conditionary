@@ -83,13 +83,17 @@ switch ($need) {
                 $product_fields = ['name', 'description', 'category', 'producer', 'country', 'price', 'quantity'];
                 $ingredient_fields = ['energy', 'nutrition', 'components', 'weight'];
                 $tool_fields = ['material'];
-                $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity) VALUES (:name, :description, :category, :producer, :country, :price, :quantity); SELECT id FROM product ORDER BY id DESC");
+                $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity) VALUES (:name, :description, :category, :producer, :country, :price, :quantity)");
                 $category = '';
                 foreach ($product_fields as $field) {
-                    if($key == 'category') $category = $value;
+                    if($field == 'category') $category = $_POST[$field];
+                    // if($field == 'image') $newProductQ->bindParam($field, $_FILES[$field]['name']);
                     $newProductQ->bindParam($field, $_POST[$field]);
                 }
-                $id = $newProductQ->fetch();
+                
+                $newProductQ->execute();
+                $selectIDQ = $pdo->query("SELECT id FROM product ORDER BY id DESC");
+                $id = $selectIDQ->fetch()[0];
 
                 switch($category){
                     case 1:{
@@ -101,6 +105,7 @@ switch ($need) {
                             $newIngredientQ->bindParam($field, $_POST[$field]);
                         }
                         $newIngredientQ->execute();
+                        break;
                     }
                     case 2:{
                         $newToolQ = $pdo->prepare("INSERT INTO tool(general_info, material) VALUES($id, :material)");
@@ -108,6 +113,7 @@ switch ($need) {
                             $newToolQ->bindParam($field, $_POST[$field]);
                         }
                         $newToolQ->execute();
+                        break;
                     }
                 }
                 break;
