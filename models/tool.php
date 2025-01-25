@@ -32,7 +32,7 @@ class Tool extends Item{
         $country = $this->countryByNumber($this->country);
 
         return "<div class='card' style='width: 18rem;'>
-                    <img src='static/img/$this->image' class='card-img-top' alt='...'>
+                    <img src='static/img/products/$this->image' class='card-img-top' alt='...'>
                     <div class='card-body'>
                         <a class='card-title' href='product?id=$this->id'>$this->name</a>
                         <p class='card-text'>$this->producer <a class='badge text-bg-success'>$this->price ₽</a></p>

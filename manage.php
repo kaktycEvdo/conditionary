@@ -1,5 +1,6 @@
 <?php
 include_once 'connect_to_db.php';
+include_once 'checking_module.php';
 if (!isset($_GET['item']) || $_GET['item'] == '') {
     echo 'error';
     die;
@@ -86,9 +87,33 @@ switch ($need) {
                 $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity) VALUES (:name, :description, :category, :producer, :country, :price, :quantity)");
                 $category = '';
                 foreach ($product_fields as $field) {
-                    if($field == 'category') $category = $_POST[$field];
-                    // if($field == 'image') $newProductQ->bindParam($field, $_FILES[$field]['name']);
-                    $newProductQ->bindParam($field, $_POST[$field]);
+                    switch($field){
+                        case 'category':
+                            $category = $_POST[$field];
+                            $newProductQ->bindParam($field, $_POST[$field]);
+                            break;
+                        case 'image':{
+                            $img = $_FILES[$field];
+                        
+                            $imgname = $img['name'];
+                            $to = "static/img/products/$imgname";
+
+                            if(!is_dir('static/img/products')){
+                                mkdir('static/img/products');
+                            }
+
+                            $imgVal = validateMedia($img, $to);
+                            if($imgVal[0]){
+                                ServerModal::staticThrowModal($imgVal[1], 1, 'admin');
+                            }
+                
+                            $newProductQ->bindParam($field, $img['name']);
+                            break;
+                        }
+                        default:
+                            $newProductQ->bindParam($field, $_POST[$field]);
+                            break;
+                    }
                 }
                 
                 $newProductQ->execute();
