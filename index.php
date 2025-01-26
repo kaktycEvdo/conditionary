@@ -20,12 +20,23 @@ class Session{
     public static function get($name){
         return $_SESSION[$name];
     }
+    public static function checkIfExists($name){
+        return isset($_SESSION[$name]);
+    }
 }
 class Page{
     protected $page_name;
+    protected $basket;
 
     public function __construct(string $page_name) {
         $this->page_name = $page_name;
+        if(Session::checkIfExists('basket')){
+            $this->basket = unserialize(Session::get('basket'));
+        }
+        else{
+            $this->basket = new Basket();
+            Session::set('basket', serialize($this->basket));
+        }
     }
 
     public function setPageName(string $name){
