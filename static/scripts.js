@@ -23,6 +23,53 @@ function popup(style, content){
     })
 }
 
+function displayNewForm(item){
+    const loading = document.getElementById('loading');
+
+    loading.classList.remove('hidden');
+    fetch('manage.php?item='+item+'&command=newForm').
+    then(response => {
+        if(response.headers.get('content-type') === 'text/html; charset=utf-8'){
+            const loading = document.getElementById('loading');
+            loading.classList.add('hidden');
+            let res = response.text();
+
+            return res;
+        }
+        
+    }, error => {
+        console.log(error);
+        const loading = document.getElementById('loading');
+
+        loading.classList.add('hidden');
+    }).then(res => {
+        const container = document.getElementById('content_container');
+        container.innerHTML = res;
+    }).then(() => {
+        let i_radio = document.getElementById('ingredient');
+        let t_radio = document.getElementById('tool');
+        let ingredient_fields = document.getElementsByClassName('ingredient-field');
+        let tool_fields = document.getElementsByClassName('tool-field');
+
+        i_radio.addEventListener('change', () => {
+            for(let i = 0; i < ingredient_fields.length; i++){
+                ingredient_fields[i].classList.remove('hidden');
+            }
+            for(let i = 0; i < tool_fields.length; i++){
+                tool_fields[i].classList.add('hidden');
+            }
+        });
+        t_radio.addEventListener('change', () => {
+            for(let i = 0; i < tool_fields.length; i++){
+                tool_fields[i].classList.remove('hidden');
+            }
+            for(let i = 0; i < ingredient_fields.length; i++){
+                ingredient_fields[i].classList.add('hidden');
+            }
+        });
+    })
+}
+
 function dofetching(item, command){
     const loading = document.getElementById('loading');
 
@@ -118,7 +165,23 @@ function removeFromBasket(e){
         }
     });
 }
-function placeOrder(e){
+function clearBasket(){
+    const link = document.getElementsByClassName('order_link')[0];
+    let numbers = Number(link.innerHTML.replace(/\D/g, ""));
+    numbers=0;
+    link.innerHTML = 'Корзина ('+numbers+')';
+    
+    fetch("manage.php?command=clearBasket&item=products")
+    .then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
+            const container = document.getElementById('debug_container');
+            container.innerHTML = container.innerHTML+res;
+        }
+    });
+}
+function placeOrder(){
     const link = document.getElementsByClassName('order_link')[0];
     let numbers = Number(link.innerHTML.replace(/\D/g, ""));
     numbers=0;

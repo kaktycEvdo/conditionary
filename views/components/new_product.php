@@ -74,26 +74,3 @@
 <div class="container">
 <button id="newProductBtn" class="btn btn-success" onclick="sendPostProduct()">Создать</button>
 </div>
-<script>
-    let i_radio = document.getElementById('ingredient');
-    let t_radio = document.getElementById('tool');
-    let ingredient_fields = document.getElementsByClassName('ingredient-field');
-    let tool_fields = document.getElementsByClassName('tool_fields');
-
-    i_radio.addEventListener('change', {
-        ingredient_fields.forEach(field => {
-            field.classList.remove('hidden');
-        });
-        tool_fields.forEach(field => {
-            field.classList.add('hidden');
-        });
-    })
-    t_radio.addEventListener('change', {
-        tool_fields.forEach(field => {
-            field.classList.remove('hidden');
-        });
-        ingredient_fields.forEach(field => {
-            field.classList.add('hidden');
-        });
-    })
-</script>

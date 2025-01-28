@@ -26,7 +26,7 @@
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li><a href="#"
                                 class="link-body-emphasis d-inline-flex text-decoration-none rounded"
-                                onclick="dofetching('products', 'newForm')">Создать</a>
+                                onclick="displayNewForm('products')">Создать</a>
                         </li>
                         <li><a href="#"
                                 class="link-body-emphasis d-inline-flex text-decoration-none rounded"

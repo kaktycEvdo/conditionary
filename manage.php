@@ -94,7 +94,7 @@ switch ($need) {
                             $newProductQ->bindParam($field, $_POST[$field]);
                             break;
                         case 'image':{
-                            $img = $_FILES[$field];
+                            $img = $_FILES['image'];
                         
                             $imgname = $img['name'];
                             $to = "static/img/products/$imgname";
@@ -190,13 +190,25 @@ switch ($need) {
                 $basket = unserialize($_SESSION['basket']);
                 $basket->removeItem(preg_replace('/[^0-9_ %\[\]\.\(\)%&-]/s', '', $_GET['id']));
             }
+            case 'clearBasket': {
+                require_once 'models/basket.php';
+                $basket = unserialize($_SESSION['basket']);
+                $basket->clear();
+            }
             case 'placeOrder': {
                 require_once 'models/basket.php';
                 require_once 'models/order.php';
                 require_once 'models/ingredient.php';
                 require_once 'models/tool.php';
+                require_once "models/user.php";
                 $basket = unserialize($_SESSION['basket']);
                 $basket->clear();
+
+                $products = $basket->getItems();
+                $user = unserialize($_SESSION['user']);
+
+                $order = new Order($user->getID(), $products);
+                $order->initializeOrder($pdo);
             }
         }
         break;

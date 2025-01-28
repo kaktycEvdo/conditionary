@@ -18,6 +18,7 @@ class User extends Model{
             $this->changeName($data['username']);
             $this->changePassword($data['password'], false);
             $this->changeEmail($data['email']);
+            $this->setID($data['id']);
 
             Session::set('user', serialize($this));
         }
@@ -81,6 +82,9 @@ class User extends Model{
             $password = hash('sha256', $password);
         }
         $this->password = $password;
+    }
+    public function getID(){
+        return $this->id;
     }
 
     // TODO: add changeByObject and changeByDBTable. one for changing the DB table object from class variables and one for the opposite thing.
