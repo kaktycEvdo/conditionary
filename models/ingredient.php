@@ -43,8 +43,35 @@ class Ingredient extends Item{
                         <li class='list-group-item'>$this->quantity шт осталось</li>
                     </ul>
                     <div class='card-body text-center'>
-                        <a href='#' class='card-link btn btn-outline-warning'>Добавить в корзину</a>
+                        <a href='#' class='card-link btn btn-outline-warning $this->id'>Добавить в корзину</a>
                         <!-- <a href='#' class='card-link'>Another link</a> -->
+                    </div>
+                </div>";
+    }
+
+    public function drawFull($id){
+        $country = $this->countryByNumber($this->country);
+        $nutrition = implode(',', $this->nutrition);
+
+        return "<div class='card' style='width: 18rem;'>
+                    <img src='static/img/products/$this->image' class='card-img-top' alt='...'>
+                    <div class='card-body'>
+                        <a class='card-title' href='product?id=$this->id'>$this->name</a>
+                        <p class='card-text'>$this->producer <a class='badge text-bg-success'>$this->price ₽</a></p>
+                    </div>
+                    <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>Энергетическая ценность: $this->energy ккал</li>
+                        <li class='list-group-item'>Б,Ж,У: $nutrition</li>
+                        <li class='list-group-item'>Состав: $this->components</li>
+                        <li class='list-group-item'>Вес: $this->weight</li>
+                        <li class='list-group-item'>Страна-производитель: $country</li>
+                        <li class='list-group-item'>$this->quantity шт осталось</li>
+                    </ul>
+                    <ul class='list-group list-group-flush'>
+                        <li class='list-group-item'>Описание: $this->description</li>
+                    </ul>
+                    <div class='card-body text-center'>
+                        <a href='#' class='card-link btn btn-outline-danger $id'>Удалить из корзины</a>
                     </div>
                 </div>";
     }

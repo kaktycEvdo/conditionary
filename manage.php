@@ -1,6 +1,7 @@
 <?php
 include_once 'connect_to_db.php';
 include_once 'checking_module.php';
+session_start();
 if (!isset($_GET['item']) || $_GET['item'] == '') {
     echo 'error';
     die;
@@ -122,9 +123,6 @@ switch ($need) {
 
                 switch($category){
                     case 1:{
-                        // TODO: class-based creation
-                        // $newIngredient = new Ingredient(0, 1, );
-                        // $newIngredient->initiate();
                         $newIngredientQ = $pdo->prepare("INSERT INTO ingredient(general_info, energy, nutrition, components, weight) VALUES ($id, :energy, :nutrition, :components, :weight)");
                         foreach($ingredient_fields as $field){
                             $newIngredientQ->bindParam($field, $_POST[$field]);
@@ -142,6 +140,63 @@ switch ($need) {
                     }
                 }
                 break;
+            }
+            case 'addToBasket': {
+                include_once "models/ingredient.php";
+                include_once "models/tool.php";
+                include_once "models/basket.php";
+                $basket = unserialize($_SESSION['basket']);
+                $getProductInfoQ = $pdo->prepare("SELECT name, category, description, producer, country, price, quantity, image, tool.material, ingredient.energy, ingredient.nutrition, ingredient.components, ingredient.weight FROM product LEFT JOIN ingredient ON ingredient.general_info = :id LEFT JOIN tool ON tool.general_info = :id WHERE product.id = :id");
+                $getProductInfoQ->bindParam('id', $_GET['id']);
+                $getProductInfoQ->execute();
+                $product_info = $getProductInfoQ->fetch();
+                $product = null;
+                switch ($product_info['category']) {
+                    case 1:{
+                        $product = new Ingredient($_GET['id'],
+                        $product_info['category'],
+                        $product_info['name'],
+                        $product_info['producer'],
+                        $product_info['country'],
+                        $product_info['price'],
+                        explode(',', $product_info['nutrition']),
+                        $product_info['energy'],
+                        $product_info['components'],
+                        $product_info['weight'],
+                        $product_info['quantity'],
+                        $product_info['description'],
+                        $product_info['image']);
+                        break;
+                    }
+                    case 2:{
+                        $product = new Tool($_GET['id'],
+                        $product_info['category'],
+                        $product_info['name'],
+                        $product_info['producer'],
+                        $product_info['country'],
+                        $product_info['price'],
+                        $product_info['material'],
+                        $product_info['quantity'],
+                        $product_info['description'],
+                        $product_info['image']);
+                        break;
+                    }
+                }
+                $basket->addItem($product);
+                break;
+            }
+            case 'removeFromBasket': {
+                require_once 'models/basket.php';
+                $basket = unserialize($_SESSION['basket']);
+                $basket->removeItem(preg_replace('/[^0-9_ %\[\]\.\(\)%&-]/s', '', $_GET['id']));
+            }
+            case 'placeOrder': {
+                require_once 'models/basket.php';
+                require_once 'models/order.php';
+                require_once 'models/ingredient.php';
+                require_once 'models/tool.php';
+                $basket = unserialize($_SESSION['basket']);
+                $basket->clear();
             }
         }
         break;

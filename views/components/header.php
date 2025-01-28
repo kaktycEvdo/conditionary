@@ -52,9 +52,8 @@ $user = isset($_SESSION['user']) ? unserialize(Session::get('user')) : null;
                 <?php }
                 else{
                     $name = $user->getName();
-                    // $basketAmount = $this->basket->getItemsAmount();
-                    var_dump($this->basket);
-                    echo "<a href='order'>Корзина ()</a>";
+                    $basketAmount = $this->basket->getItemsAmount();
+                    echo "<a href='order' class='order_link'>Корзина ($basketAmount)</a> ";
                     echo "<a href='profile' class='text-warning'>$name</a>";
                 }
                 ?>

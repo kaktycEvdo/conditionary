@@ -1,6 +1,7 @@
 <?php
 session_start();
 require 'connect_to_db.php';
+require 'models/basket.php';
 
 // url nesting. example: localhost/index, localhost/site/index. counts from 0.
 $nesting = 1;
@@ -30,13 +31,6 @@ class Page{
 
     public function __construct(string $page_name) {
         $this->page_name = $page_name;
-        if(Session::checkIfExists('basket')){
-            $this->basket = unserialize(Session::get('basket'));
-        }
-        else{
-            $this->basket = new Basket();
-            Session::set('basket', serialize($this->basket));
-        }
     }
 
     public function setPageName(string $name){
@@ -47,6 +41,13 @@ class Page{
     }
 
     public function draw($url, $pages_names, $pages_titles, $dir){
+        if(Session::checkIfExists('basket')){
+            $this->basket = unserialize(Session::get('basket'));
+        }
+        else{
+            $this->basket = new Basket();
+            Session::set('basket', serialize($this->basket));
+        }
         include_once 'views/components/header.php';
 
         include_once "views/$this->page_name.php";
@@ -183,6 +184,7 @@ if($url != '/manage.php'){
 </head>
 <body class="vh-100 vw-100 d-grid" style="grid-template-rows: max-content auto">
     <?php $current_page->draw($url, $pages_names, $pages_titles, $dir); ?>
+    <script src="static/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="static/js/bootstrap.min.js"></script>
 </body>

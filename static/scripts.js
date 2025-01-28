@@ -84,3 +84,53 @@ function sendPostProduct(){
         }
     });
 }
+function addToBasket(e){
+    const link = document.getElementsByClassName('order_link')[0];
+    let numbers = Number(link.innerHTML.replace(/\D/g, ""));
+    numbers+=1;
+    link.innerHTML = 'Корзина ('+numbers+')';
+    let id = e.target.classList[3];
+    
+    fetch("manage.php?command=addToBasket&item=products&id="+id)
+    .then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
+            const container = document.getElementById('debug_container');
+            container.innerHTML = container.innerHTML+res;
+        }
+    });
+}
+function removeFromBasket(e){
+    const link = document.getElementsByClassName('order_link')[0];
+    let numbers = Number(link.innerHTML.replace(/\D/g, ""));
+    numbers-=1;
+    link.innerHTML = 'Корзина ('+numbers+')';
+    let id = e.target.classList[3];
+    
+    fetch("manage.php?command=removeFromBasket&item=products&id="+id)
+    .then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
+            const container = document.getElementById('debug_container');
+            container.innerHTML = container.innerHTML+res;
+        }
+    });
+}
+function placeOrder(e){
+    const link = document.getElementsByClassName('order_link')[0];
+    let numbers = Number(link.innerHTML.replace(/\D/g, ""));
+    numbers=0;
+    link.innerHTML = 'Корзина ('+numbers+')';
+    
+    fetch("manage.php?command=placeOrder&item=products")
+    .then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
+            const container = document.getElementById('debug_container');
+            container.innerHTML = container.innerHTML+res;
+        }
+    });
+}

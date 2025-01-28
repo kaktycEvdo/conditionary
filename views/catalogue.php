@@ -2,8 +2,8 @@
 
 ?>
 
-<div class="d-grid">
-    <div class="row">
+<div class="container d-grid vw-100">
+    <div class="row w-100">
         <div class="filters col col-2">
             <div class="accordion" id="accordionPanelsStayOpenExample">
                 <h4 class="text-center">Фильтры</h4>
@@ -65,3 +65,14 @@
         </div>
     </div>
 </div>
+<div id="debug_container">
+
+</div>
+<script>
+    const buttons = document.querySelectorAll(".card-link.btn");
+    buttons.forEach(button => {
+        button.addEventListener("click", (e) => {
+            addToBasket(e);
+        });
+    });
+</script>
