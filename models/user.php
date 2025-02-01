@@ -86,6 +86,10 @@ class User extends Model{
     public function getID(){
         return $this->id;
     }
+    public function logout(){
+        unset($_SESSION['user']);
+        session_destroy();
+    }
 
     // TODO: add changeByObject and changeByDBTable. one for changing the DB table object from class variables and one for the opposite thing.
 }

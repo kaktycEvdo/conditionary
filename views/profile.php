@@ -24,9 +24,9 @@ $user = unserialize(Session::get('user'));
                 </button>
             </div>
             <div class="row">
-                <button class="btn btn-outline-danger">
+                <a class="btn btn-outline-danger" href="logout">
                     Выйти
-                </button>
+                </a>
             </div>
         </div>
         <div class="col-auto container d-grid gap-2">

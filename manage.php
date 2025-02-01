@@ -82,10 +82,10 @@ switch ($need) {
                 break;
             }
             case 'newProduct': {
-                $product_fields = ['name', 'description', 'category', 'producer', 'country', 'price', 'quantity'];
+                $product_fields = ['name', 'description', 'category', 'producer', 'country', 'price', 'quantity', 'image'];
                 $ingredient_fields = ['energy', 'nutrition', 'components', 'weight'];
                 $tool_fields = ['material'];
-                $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity) VALUES (:name, :description, :category, :producer, :country, :price, :quantity)");
+                $newProductQ = $pdo->prepare("INSERT INTO product(name, description, category, producer, country, price, quantity, image) VALUES (:name, :description, :category, :producer, :country, :price, :quantity, :image)");
                 $category = '';
                 foreach ($product_fields as $field) {
                     switch($field){
@@ -106,9 +106,10 @@ switch ($need) {
                             $imgVal = validateMedia($img, $to);
                             if($imgVal[0]){
                                 ServerModal::staticThrowModal($imgVal[1], 1, 'admin');
+                                echo 'error';
                             }
                 
-                            $newProductQ->bindParam($field, $img['name']);
+                            $newProductQ->bindParam($field, $imgname);
                             break;
                         }
                         default:
@@ -212,5 +213,19 @@ switch ($need) {
             }
         }
         break;
+    }
+    case 'users': {
+        require_once 'models/user.php';
+        if(isset($_SESSION['user']) && $_SESSION['user'] != ''){
+            $user = unserialize($_SESSION['user']);
+            switch($command){
+                case 'logout':{
+                    $user->logout();
+                    echo $_SESSION['user'];
+                    break;
+                }
+            }
+            break;
+        }
     }
 }

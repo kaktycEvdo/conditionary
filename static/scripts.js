@@ -197,3 +197,17 @@ function placeOrder(){
         }
     });
 }
+function logout(){
+    fetch("manage.php?command=logout&item=users")
+    .then(res => {
+        return res.text();
+    }).then(res => {
+        if(res != ''){
+            const container = document.getElementById('debug_container');
+            container.innerHTML = container.innerHTML+res;
+        }
+        else{
+            history.back();
+        }
+    });
+}
