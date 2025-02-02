@@ -100,23 +100,36 @@ class ServerModal{
         if($location){
             Page::redirect($location);
         }
+        else{
+            $modal->printMessage();
+        }
     }
     public function printMessage(){
         switch($this->type){
             case false:
-                echo "<div class='modal fade success' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
-                        <div class='modal-dialog'>
-                            <div class='modal-content'>
-                                $this->message
+                echo "<div class='modal fade show d-flex justify-content-center mt-5' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
+                        <div class='modal-dialog w-25 h-25 mt-5'>
+                            <div class='modal-content border-warning h-100 w-100 d-grid justify-content-center'>
+                                <div class='modal-interface'>
+                                    <button class='btn bg-danger border-danger' onclick='hideModal()'>X</button>
+                                </div>
+                                <div class='modal-message row text-warning'>
+                                    $this->message
+                                </div>
                             </div>
                         </div>
                     </div>";
                 break;
             case true:
-                echo "<div class='modal fade error' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
-                        <div class='modal-dialog'>
-                            <div class='modal-content'>
-                                $this->message
+                echo "<div class='modal fade show d-flex justify-content-center mt-5' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
+                        <div class='modal-dialog w-25 h-25 mt-5'>
+                            <div class='modal-content border-danger h-100 w-100 d-grid justify-content-center'>
+                                <div class='modal-interface'>
+                                    <button class='btn bg-danger border-danger' onclick='hideModal()'>X</button>
+                                </div>
+                                <div class='modal-message row text-danger'>
+                                    $this->message
+                                </div>
                             </div>
                         </div>
                     </div>";
@@ -169,6 +182,7 @@ if($current_page == null){
 if(isset($_SESSION['serverModal'])){
     $modal = unserialize(Session::get('serverModal'));
     $modal->printMessage();
+    unset($_SESSION['serverModal']);
 }
 
 if($url != '/manage.php'){

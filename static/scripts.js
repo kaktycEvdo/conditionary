@@ -211,3 +211,20 @@ function logout(){
         }
     });
 }
+
+if(document.querySelectorAll('.modal')){
+    let modals = document.querySelectorAll('.modal');
+    
+    function hideModal(){
+        modals.forEach(modal => {
+            modal.classList.remove('show');
+            modal.classList.add('d-none');
+        });
+    }
+    function showModal(){
+        modals.forEach(modal => {
+            modal.classList.remove('show');
+            modal.classList.add('d-none');
+        });
+    }
+}
