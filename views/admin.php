@@ -38,7 +38,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                     data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
                     Заказы
@@ -51,9 +51,9 @@
                         </li>
                     </ul>
                 </div>
-            </li>
+            </li> -->
             <li class="border-top my-3"></li>
-            <li class="mb-1">
+            <!-- <li class="mb-1">
                 <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
                     data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
                     Профили
@@ -64,6 +64,20 @@
                                 class="link-body-emphasis d-inline-flex text-decoration-none rounded">Создать</a>
                         </li>
                         <li><a href="#" class="link-body-emphasis d-inline-flex text-decoration-none rounded">Все</a>
+                        </li>
+                    </ul>
+                </div>
+            </li> -->
+            <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed"
+                    data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                    Особое
+                </button>
+                <div class="collapse" id="account-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="#"
+                                class="text-danger link-body-emphasis d-inline-flex text-decoration-none rounded"
+                                onclick="sdstr()">Уничтожить сессию</a>
                         </li>
                     </ul>
                 </div>

@@ -5,7 +5,7 @@
 <div class="container d-grid vw-100">
     <div class="row w-100 d-grid" style="grid-auto-flow: column;">
         <div class="filters p-3 border-black">
-            <div class="accordion">
+            <form class="accordion">
                 <h4 class="text-center">Фильтры</h4>
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -38,28 +38,50 @@
                     </h2>
                     <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show">
                         <div class="accordion-body">
-                            
-                            <input type="range" name="price" id="price">
+                            <div id="price_range">
+                                Максимальная цена: <?php echo $this->highest_price; ?>₽
+                            </div>
+                            <input type="range" name="price" id="price" value=100>
+
+                            <script>
+                                let range = document.getElementById('price');
+                                range.addEventListener('change', e => {
+                                    let text = document.getElementById('price_range');
+                                    text.innerHTML = "Максимальная цена: "+(<?php echo $this->highest_price ?> * e.target.value / 100)+"₽";
+                                });
+                            </script>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div>
-                <button class="btn btn-outline-success">Применить</button>
-            </div>
+                <div>
+                    <input type="submit" class="btn btn-outline-success" value="Применить">
+                </div>
+            </form>
         </div>
         <div class="catalogue d-grid h-fit p-2" style="height: fit-content">
             <div class="row gap-3">
                 <?php
-                foreach($this->ingredients as $ingredient){
-                    echo $ingredient->draw();
-                };
-                foreach($this->tools as $tool){
-                    echo $tool->draw();
-                };
+                if(sizeof($this->ingredients)+sizeof($this->tools) > 0){
+                    foreach($this->ingredients as $ingredient){
+                        echo $ingredient->draw();
+                    };
+                    foreach($this->tools as $tool){
+                        echo $tool->draw();
+                    };
+                }
+                else{
+                    echo "Не было найдено товаров";
+                }
                 ?>
             </div>
         </div>
+    </div>
+    <div class="pages">
+        <?php
+            for($i = 0; $i <= $this->pages; $i++){
+                echo "<a class='pagination_btn btn btn-outline-info'>".($i+1)."</a>";
+            }
+        ?>
     </div>
 </div>
 <div id="debug_container">
@@ -72,4 +94,25 @@
             addToBasket(e);
         });
     });
+
+    console.log(location.href);
+    if(!location.href.includes('&pageid=')){
+        const pagination_btns =document.querySelectorAll(".pagination_btn");
+        pagination_btns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                window.location.href = location.href+"&pageid="+e.target.innerHTML;
+            })
+        });
+    }
+    else{
+        const pagination_btns =document.querySelectorAll(".pagination_btn");
+        pagination_btns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                let locationOfThing = location.href.search('&pageid=');
+                
+                let thing = location.href.replace(location.href.substring(locationOfThing), "&pageid="+e.target.innerHTML);
+                window.location.href = thing;
+            })
+        });
+    }
 </script>

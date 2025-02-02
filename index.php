@@ -108,12 +108,10 @@ class ServerModal{
         switch($this->type){
             case false:
                 echo "<div class='modal fade show d-flex justify-content-center mt-5' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
-                        <div class='modal-dialog w-25 h-25 mt-5'>
-                            <div class='modal-content border-warning h-100 w-100 d-grid justify-content-center'>
-                                <div class='modal-interface'>
-                                    <button class='btn bg-danger border-danger' onclick='hideModal()'>X</button>
-                                </div>
-                                <div class='modal-message row text-warning'>
+                        <div class='modal-dialog w-25 h-auto mt-5'>
+                            <div class='modal-content border-warning w-100 flex-column d-flex justify-content-center p-3'>
+                                <div class='row'><div class='modal-interface d-flex justify-content-end'><button class='btn bg-danger border-danger' onclick='hideModal()'>X</button></div></div>
+                                <div class='row modal-message text-warning h-100 w-100 p-2'>
                                     $this->message
                                 </div>
                             </div>
@@ -122,12 +120,10 @@ class ServerModal{
                 break;
             case true:
                 echo "<div class='modal fade show d-flex justify-content-center mt-5' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='false'>
-                        <div class='modal-dialog w-25 h-25 mt-5'>
-                            <div class='modal-content border-danger h-100 w-100 d-grid justify-content-center'>
-                                <div class='modal-interface'>
-                                    <button class='btn bg-danger border-danger' onclick='hideModal()'>X</button>
-                                </div>
-                                <div class='modal-message row text-danger'>
+                        <div class='modal-dialog w-25 h-auto mt-5'>
+                            <div class='modal-content border-danger w-100 flex-column d-flex justify-content-center p-3'>
+                                <div class='row'><div class='modal-interface d-flex justify-content-end'><button class='btn bg-danger border-danger' onclick='hideModal()'>X</button></div></div>
+                                <div class='row modal-message text-danger h-100 w-100 p-2'>
                                     $this->message
                                 </div>
                             </div>
@@ -181,8 +177,10 @@ if($current_page == null){
 
 if(isset($_SESSION['serverModal'])){
     $modal = unserialize(Session::get('serverModal'));
-    $modal->printMessage();
-    unset($_SESSION['serverModal']);
+    if($modal->thrown){
+        $modal->printMessage();
+        unset($_SESSION['serverModal']);
+    }
 }
 
 if($url != '/manage.php'){

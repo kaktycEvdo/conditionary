@@ -2,14 +2,17 @@
 include_once 'connect_to_db.php';
 include_once 'checking_module.php';
 session_start();
-if (!isset($_GET['item']) || $_GET['item'] == '') {
-    echo 'error';
-    die;
-}
 $need = $_GET['item'];
 $command = $_GET['command'];
 
 $data = 'a';
+
+if($command == 'sdstr'){
+    unset($_SESSION['user']);
+    unset($_SESSION['basket']);
+    session_destroy();
+    die;
+}
 
 switch ($need) {
     case 'products': {

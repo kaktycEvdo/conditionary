@@ -7,7 +7,7 @@ class ProductPage extends Page{
         $this->page_name = 'product';
 
         $id = $_GET['id'];
-        $productQ = $pdo->prepare("SELECT category, name, description, producer, country, price, quantity FROM product WHERE id = :id");
+        $productQ = $pdo->prepare("SELECT category, name, description, producer, country, price, quantity, image FROM product WHERE id = :id");
         $productQ->bindParam('id', $id);
         $productQ->execute();
         $product_data = $productQ->fetch();
@@ -19,14 +19,14 @@ class ProductPage extends Page{
                 $this->product = new Ingredient($id, $product_data['category'], $product_data['name'],
             $product_data['producer'], $product_data['country'], $product_data['price'],
             explode(',', $ingredient_info['nutrition']), $ingredient_info['energy'],
-            $ingredient_info['components'], $ingredient_info['weight'], $product_data['quantity']);
+            $ingredient_info['components'], $ingredient_info['weight'], $product_data['quantity'], $product_data['description'], $product_data['image']);
                 break;
             case 2:
                 $getToolQ = $pdo->query("SELECT material FROM tool WHERE general_info = $id");
                 $tool_info = $getToolQ->fetch();
                 $this->product = new Tool($id, $product_data['category'], $product_data['name'],
             $product_data['producer'], $product_data['country'], $product_data['price'],
-            $tool_info['material'], $product_data['quantity']);
+            $tool_info['material'], $product_data['quantity'], $product_data['description'], $product_data['image']);
                 break;
         }
     }
