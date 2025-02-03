@@ -206,9 +206,9 @@ switch ($need) {
                 require_once 'models/tool.php';
                 require_once "models/user.php";
                 $basket = unserialize($_SESSION['basket']);
-                $basket->clear();
 
                 $products = $basket->getItems();
+                $basket->clear();
                 $user = unserialize($_SESSION['user']);
 
                 $order = new Order($user->getID(), $products);

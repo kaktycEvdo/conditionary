@@ -11,7 +11,7 @@ $user = isset($_SESSION['user']) ? unserialize(Session::get('user')) : null;
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <?php
-                $blacklist = ['/order', '/orders', '/auth', '/reg', '/product'];
+                $blacklist = ['/order', '/orders', '/auth', '/reg', '/product', '/profile', '/logout'];
 
                 for($i = 0; $i < sizeof($pages_names); $i++){
                     if(array_search($pages_names[$i], $blacklist) || $blacklist[0] == $pages_names[$i]){

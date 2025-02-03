@@ -4,8 +4,9 @@
     }
 </style>
 <form enctype="multipart/form-data" method="POST" class="container d-grid gap-2" id="newProductForm">
+    <h6>* - обязательные поля</h6>
     <div class="row">
-        <label for="name">Название продукта</label>
+        <label for="name">Название продукта*</label>
         <input id="name" required name="name" type="text">
     </div>
     <div class="row">
@@ -13,7 +14,7 @@
         <textarea name="description" id="description"></textarea>
     </div>
     <div class="row">
-        <label>Категория продукта</label>
+        <label>Категория продукта*</label>
         <div>
             <input required class="form-check-input" type="radio" name="category" value="1" id="ingredient" checked>
             <label class="form-check-label" for="ingredient">
@@ -26,32 +27,32 @@
         </div>
     </div>
     <div class="row ingredient-field">
-        <label for="energy">Энергетическая ценность (ККал)</label>
-        <input type="number" id="energy" name="energy">
+        <label for="energy">Энергетическая ценность (ККал)*</label>
+        <input type="number" id="energy" min="1" name="energy">
     </div>
     <div class="row ingredient-field">
-        <label for="nutrition">Пищевая ценность (Б,Ж,У)</label>
+        <label for="nutrition">Пищевая ценность (Б,Ж,У)*</label>
         <input type="text" id="nutrition" name="nutrition">
     </div>
     <div class="row ingredient-field">
-        <label for="components">Состав</label>
+        <label for="components">Состав*</label>
         <textarea name="components" id="components"></textarea>
     </div>
     <div class="row ingredient-field">
-        <label for="weight">Вес (гр)</label>
-        <input type="number" id="weight" name="weight">
+        <label for="weight">Вес (гр)*</label>
+        <input type="number" id="weight" min="1" name="weight">
     </div>
     <div class="row tool-field hidden">
-        <label for="material">Материал</label>
+        <label for="material">Материал*</label>
         <input type="number" id="material" name="material">
     </div>
     <div class="row">
-        <label for="producer">Производитель</label>
+        <label for="producer">Производитель*</label>
         <input required type="text" id="producer" name="producer">
     </div>
     <div class="row">
-        <label for="country">Код страны-производителя</label>
-        <select name="country" id="country" class="form-select">
+        <label for="country">Код страны-производителя*</label>
+        <select name="country" required id="country" class="form-select">
             <option value="0" selected>Неизвестная страна (0)</option>
             <option value="7">Россия (7)</option>
             <option value="33">Франция (33)</option>
@@ -59,15 +60,15 @@
         </select>
     </div>
     <div class="row">
-        <label for="price">Цена</label>
-        <input required type="number" id="price" name="price">
+        <label for="price">Цена*</label>
+        <input required type="number" min="1" id="price" name="price">
     </div>
     <div class="row">
-        <label for="quantity">Количество доступно</label>
-        <input required type="number" id="quantity" name="quantity">
+        <label for="quantity">Количество доступно*</label>
+        <input required type="number" min="0" id="quantity" name="quantity">
     </div>
     <div class="row">
-        <label for="image">Изображение</label>
+        <label for="image">Изображение*</label>
         <input required type="file" name="image" class="form-control" id="image">
     </div>
 </form>

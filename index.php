@@ -142,6 +142,8 @@ $pages_names = [
     '/orders',
     '/reg',
     '/admin',
+    '/profile',
+    '/logout',
     '/product'
 ];
 $pages_titles = [
@@ -168,7 +170,7 @@ if(array_search($url, $pages_names, true) !== false){
     }
 }
 else{
-    require_once "views/404.html";
+    $current_page = new Page('404');
 }
 
 if($current_page == null){

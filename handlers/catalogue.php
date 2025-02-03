@@ -36,24 +36,24 @@ class CataloguePage extends Page
         if (isset($_GET['category']))
             $categoryFilter = htmlspecialchars($_GET['category']);
 
-        $getProductsQ = $pdo->query("SELECT id, category, name, producer, country, price, quantity, description, image FROM product WHERE price <= $priceFilter and category = $categoryFilter ORDER BY name DESC", PDO::FETCH_ASSOC);
+        $getProductsQ = $pdo->query("SELECT id, category, name, producer, country, price, quantity, description, image FROM product WHERE price <= $priceFilter and category = $categoryFilter ORDER BY name DESC LIMIT $limit OFFSET $temp", PDO::FETCH_ASSOC);
+
         $products = $getProductsQ->fetchAll();
 
-        $this->pages = round(sizeof($products) / $limit);
+        $getSpecialsQ = $pdo->query("SELECT max(price), min(price) FROM product");
+        $getPagesAmountQ = $pdo->query("SELECT count(id) FROM product WHERE category = $categoryFilter");
+        $pagesAmount = $getPagesAmountQ->fetch()[0];
+        $specials = $getSpecialsQ->fetch();
+
+        $this->pages = round($pagesAmount / $limit);
 
         $ingredients = [];
         $tools = [];
 
-        $highest_price = 0;
-        $counter = 0;
+        $highest_price = $specials[0];
+        $lowest_price = $specials[1];
 
         foreach ($products as $product_data) {
-            if ($product_data['price'] > $highest_price)
-                $highest_price = $product_data['price'];
-            // вообще не оптимизированная вещь
-            $counter++;
-            if($counter <= $temp)
-                continue;
             switch ($product_data['category']) {
                 // ингредиент
                 case 1: {
@@ -108,6 +108,7 @@ class CataloguePage extends Page
         $this->tools = $tools;
 
         $this->highest_price = $highest_price;
+        $this->lowest_price = $lowest_price;
     }
 }
 

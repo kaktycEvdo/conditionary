@@ -10,5 +10,3 @@ class AdminPage extends Page{
 }
 
 $current_page = new AdminPage();
-
-ServerModal::staticThrowModal('Example modal', false);

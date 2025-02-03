@@ -41,13 +41,13 @@
                             <div id="price_range">
                                 Максимальная цена: <?php echo $this->highest_price; ?>₽
                             </div>
-                            <input type="range" name="price" id="price" value=100>
+                            <input type="range" min="<?php echo $this->lowest_price ?>" max="<?php echo $this->highest_price ?>" name="price" id="price" value="<?php echo $this->highest_price ?>">
 
                             <script>
                                 let range = document.getElementById('price');
                                 range.addEventListener('change', e => {
                                     let text = document.getElementById('price_range');
-                                    text.innerHTML = "Максимальная цена: "+(<?php echo $this->highest_price ?> * e.target.value / 100)+"₽";
+                                    text.innerHTML = "Максимальная цена: "+( e.target.value)+"₽";
                                 });
                             </script>
                         </div>
@@ -58,7 +58,7 @@
                 </div>
             </form>
         </div>
-        <div class="catalogue d-grid h-fit p-2" style="height: fit-content">
+        <div class="catalogue d-grid p-2" style="height: fit-content;">
             <div class="row gap-3">
                 <?php
                 if(sizeof($this->ingredients)+sizeof($this->tools) > 0){
@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    <div class="pages">
+    <div class="pages d-flex justify-content-center align-items-center gap-3">
         <?php
             for($i = 0; $i <= $this->pages; $i++){
                 echo "<a class='pagination_btn btn btn-outline-info'>".($i+1)."</a>";
@@ -95,23 +95,34 @@
         });
     });
 
-    console.log(location.href);
-    if(!location.href.includes('&pageid=')){
-        const pagination_btns =document.querySelectorAll(".pagination_btn");
-        pagination_btns.forEach(btn => {
-            btn.addEventListener("click", (e) => {
-                window.location.href = location.href+"&pageid="+e.target.innerHTML;
-            })
-        });
+    if(location.href.includes('?')){
+        if(!location.href.includes('&pageid=') && !location.href.includes('?pageid=')){
+            const pagination_btns =document.querySelectorAll(".pagination_btn");
+            pagination_btns.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    window.location.href = location.href+"&pageid="+e.target.innerHTML;
+                })
+            });
+        }
+        else{
+            const pagination_btns = document.querySelectorAll(".pagination_btn");
+            pagination_btns.forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    let locationOfThing = 0;
+                    if(location.href.includes('&pageid=')) locationOfThing = location.href.search('&pageid=');
+                    else if (location.href.includes('?pageid=')) locationOfThing = location.href.search('\\\?pageid=');
+                    
+                    let thing = location.href.replace(location.href.substring(locationOfThing+1), "pageid="+e.target.innerHTML);
+                    window.location.href = thing;
+                })
+            });
+        }
     }
     else{
         const pagination_btns =document.querySelectorAll(".pagination_btn");
         pagination_btns.forEach(btn => {
             btn.addEventListener("click", (e) => {
-                let locationOfThing = location.href.search('&pageid=');
-                
-                let thing = location.href.replace(location.href.substring(locationOfThing), "&pageid="+e.target.innerHTML);
-                window.location.href = thing;
+                window.location.href = location.href+"?pageid="+e.target.innerHTML;
             })
         });
     }
